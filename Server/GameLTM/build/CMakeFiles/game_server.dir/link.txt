@@ -1,0 +1,3 @@
+C:\mingw64\bin\cmake.exe -E rm -f CMakeFiles\game_server.dir/objects.a
+C:\mingw64\bin\ar.exe qc CMakeFiles\game_server.dir/objects.a @CMakeFiles\game_server.dir\objects1.rsp
+C:\mingw64\bin\c++.exe -O3 -DNDEBUG -flto -Wl,--whole-archive CMakeFiles\game_server.dir/objects.a -Wl,--no-whole-archive -o game_server.exe -Wl,--out-implib,libgame_server.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\game_server.dir\linkLibs.rsp
