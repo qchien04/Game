@@ -4,7 +4,7 @@ Enemy spawning and management system
 import pygame
 import random
 from .enemy import Enemy, ZombieEnemy
-from .config import Config
+from .Config.config import Config
 
 class EnemyManager:
     def __init__(self):

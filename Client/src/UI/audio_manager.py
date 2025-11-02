@@ -2,7 +2,7 @@
 Audio management system
 """
 import pygame
-from .config import Config
+from .Config.config import Config
 
 class AudioManager:
     def __init__(self):

@@ -1,4 +1,4 @@
-from .config import Config
+from .Config.config import Config
 import pygame
 import csv
 

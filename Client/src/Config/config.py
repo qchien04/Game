@@ -1,7 +1,7 @@
 
 from pathlib import Path
 class Config:
-    SERVER_IP="10.158.100.79"
+    SERVER_IP="192.168.2.45"
     SERVER_PORT_TCP=8112
     SERVER_PORT_UDP=8080
 

@@ -3,7 +3,7 @@ import time
 import struct
 import threading
 from enum import Enum
-from .config import Config
+from Client.src.Config.config import Config
 from typing import override
 
 class Action(Enum):
@@ -183,13 +183,6 @@ class TestUDPClient:
                 print(f"[ERROR] {e}")
             time.sleep(0.02)
 
-
-# test=TestUDPClient()
-# test.initialize()
-# test.start()
-# while True:
-#     test.send_thread()
-#     time.sleep(1)
 
 
 

@@ -3,15 +3,15 @@ Main game manager class
 """
 import pygame
 from .Object import Object
-from .config import Config
+from .Config.config import Config
 from .game_state import GameState
-from .audio_manager import AudioManager
+from .UI.audio_manager import AudioManager
 from .ui_manager import UIManager
 from .world import World
 from .player import Player
 from .bullet_manager import BulletManager
-from .server_connection import TestUDPClient
-from .server_connection import Action
+from  Client.src.NetWork.server_connection import TestUDPClient
+from Client.src.NetWork.server_connection import Action
 from .bullet import Bullet
 
 class GameManager:

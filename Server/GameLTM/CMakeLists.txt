@@ -22,6 +22,9 @@ set(GAME_LOGIC_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic/Entity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic/Match.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic/Player.cpp
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic/Monster/Monster.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic/Monster/MonsterManager.cpp
 )
 
 set(SERVER_SOURCES

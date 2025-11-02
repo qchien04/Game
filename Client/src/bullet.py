@@ -1,5 +1,5 @@
 import pygame
-from .config import Config
+from .Config.config import Config
 
 class Bullet:
     def __init__(self, x, y, target_x=0, target_y=0, image_path=Config.BULLET_PATH + "bullet_A.png", speed=10):
@@ -36,7 +36,7 @@ class Bullet:
 Bullet class for projectiles
 """
 import pygame
-from .config import Config
+from .Config.config import Config
 
 class Bullet2(pygame.sprite.Sprite):
     def __init__(self, x, y, target_x, target_y, bullet_type='D'):

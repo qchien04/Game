@@ -8,7 +8,8 @@ namespace AnCom {
             float speed, int direction, float damage, 
             int health, int energy, int team, int id);
         ~Player();
-
+        
+        using Entity::Move;
         const int& GetCurrentHealth() const { return m_current_health; }
         const int& GetMaxHealth() const { return m_health; }
         const int& GetCurrentEnergy() const { return m_current_energy; }

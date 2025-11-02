@@ -4,7 +4,7 @@ Enemy class for zombies
 import pygame
 import random
 import math
-from .config import Config
+from .Config.config import Config
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, image_path, speed, health):

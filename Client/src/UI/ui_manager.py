@@ -3,13 +3,13 @@ UI management for menus, HUD and buttons
 """
 import pygame
 import sys
-from .config import Config
+from Client.src.Config.config import Config
 from .button import Button
-from .game_state import GameState
+from Client.src.game_state import GameState
 from .TextInputBox import TextInputBox
-from .tcp_connect import ConnectionState
-from .tcp_connect import Room
-from .tcp_connect import GameClient
+from Client.src.NetWork.tcp_connect import ConnectionState
+from Client.src.NetWork.tcp_connect import Room
+from Client.src.NetWork.tcp_connect import GameClient
 class UIManager:
     def __init__(self, screen):
         self.screen = screen

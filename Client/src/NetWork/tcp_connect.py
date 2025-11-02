@@ -7,7 +7,7 @@ from enum import IntEnum
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Callable
 import logging
-from .config import Config
+from Client.src.Config.config import Config
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

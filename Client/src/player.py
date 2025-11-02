@@ -1,6 +1,6 @@
 import pygame
 import os
-from .config import Config
+from .Config.config import Config
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):

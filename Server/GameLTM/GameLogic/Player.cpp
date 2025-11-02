@@ -22,6 +22,8 @@ namespace AnCom{
         if(isUp) this->m_position.y -= this->m_current_speed;
         if(isDown) this->m_position.y += this->m_current_speed;
     }
+    
+    
 
     bool Player::IsDie(){
         return this->m_current_health <= 0;

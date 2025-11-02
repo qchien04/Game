@@ -146,11 +146,41 @@ CMakeFiles/game_server.dir/GameLogic/Player.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/game_server.dir/GameLogic/Player.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\BTL-LTM\Server\GameLTM\GameLogic\Player.cpp -o CMakeFiles\game_server.dir\GameLogic\Player.cpp.s
 
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj: CMakeFiles/game_server.dir/flags.make
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj: CMakeFiles/game_server.dir/includes_CXX.rsp
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj: E:/BTL-LTM/Server/GameLTM/GameLogic/Monster/Monster.cpp
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj: CMakeFiles/game_server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj -MF CMakeFiles\game_server.dir\GameLogic\Monster\Monster.cpp.obj.d -o CMakeFiles\game_server.dir\GameLogic\Monster\Monster.cpp.obj -c E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\Monster.cpp
+
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\Monster.cpp > CMakeFiles\game_server.dir\GameLogic\Monster\Monster.cpp.i
+
+CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\Monster.cpp -o CMakeFiles\game_server.dir\GameLogic\Monster\Monster.cpp.s
+
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj: CMakeFiles/game_server.dir/flags.make
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj: CMakeFiles/game_server.dir/includes_CXX.rsp
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj: E:/BTL-LTM/Server/GameLTM/GameLogic/Monster/MonsterManager.cpp
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj: CMakeFiles/game_server.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj -MF CMakeFiles\game_server.dir\GameLogic\Monster\MonsterManager.cpp.obj.d -o CMakeFiles\game_server.dir\GameLogic\Monster\MonsterManager.cpp.obj -c E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\MonsterManager.cpp
+
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\MonsterManager.cpp > CMakeFiles\game_server.dir\GameLogic\Monster\MonsterManager.cpp.i
+
+CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S E:\BTL-LTM\Server\GameLTM\GameLogic\Monster\MonsterManager.cpp -o CMakeFiles\game_server.dir\GameLogic\Monster\MonsterManager.cpp.s
+
 CMakeFiles/game_server.dir/server.cpp.obj: CMakeFiles/game_server.dir/flags.make
 CMakeFiles/game_server.dir/server.cpp.obj: CMakeFiles/game_server.dir/includes_CXX.rsp
 CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp
 CMakeFiles/game_server.dir/server.cpp.obj: CMakeFiles/game_server.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/game_server.dir/server.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/game_server.dir/server.cpp.obj"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/game_server.dir/server.cpp.obj -MF CMakeFiles\game_server.dir\server.cpp.obj.d -o CMakeFiles\game_server.dir\server.cpp.obj -c E:\BTL-LTM\Server\GameLTM\server.cpp
 
 CMakeFiles/game_server.dir/server.cpp.i: cmake_force
@@ -168,6 +198,8 @@ game_server_OBJECTS = \
 "CMakeFiles/game_server.dir/GameLogic/Entity.cpp.obj" \
 "CMakeFiles/game_server.dir/GameLogic/Match.cpp.obj" \
 "CMakeFiles/game_server.dir/GameLogic/Player.cpp.obj" \
+"CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj" \
+"CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj" \
 "CMakeFiles/game_server.dir/server.cpp.obj"
 
 # External object files for target game_server
@@ -178,12 +210,14 @@ game_server.exe: CMakeFiles/game_server.dir/GameLogic/BulletManager.cpp.obj
 game_server.exe: CMakeFiles/game_server.dir/GameLogic/Entity.cpp.obj
 game_server.exe: CMakeFiles/game_server.dir/GameLogic/Match.cpp.obj
 game_server.exe: CMakeFiles/game_server.dir/GameLogic/Player.cpp.obj
+game_server.exe: CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj
+game_server.exe: CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj
 game_server.exe: CMakeFiles/game_server.dir/server.cpp.obj
 game_server.exe: CMakeFiles/game_server.dir/build.make
 game_server.exe: CMakeFiles/game_server.dir/linkLibs.rsp
 game_server.exe: CMakeFiles/game_server.dir/objects1.rsp
 game_server.exe: CMakeFiles/game_server.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable game_server.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable game_server.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\game_server.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

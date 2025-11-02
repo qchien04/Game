@@ -224,6 +224,54 @@ GameLogic/Match.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Match.cpp.s
 .PHONY : GameLogic/Match.cpp.s
 
+GameLogic/Monster/Monster.obj: GameLogic/Monster/Monster.cpp.obj
+.PHONY : GameLogic/Monster/Monster.obj
+
+# target to build an object file
+GameLogic/Monster/Monster.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.obj
+.PHONY : GameLogic/Monster/Monster.cpp.obj
+
+GameLogic/Monster/Monster.i: GameLogic/Monster/Monster.cpp.i
+.PHONY : GameLogic/Monster/Monster.i
+
+# target to preprocess a source file
+GameLogic/Monster/Monster.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.i
+.PHONY : GameLogic/Monster/Monster.cpp.i
+
+GameLogic/Monster/Monster.s: GameLogic/Monster/Monster.cpp.s
+.PHONY : GameLogic/Monster/Monster.s
+
+# target to generate assembly for a file
+GameLogic/Monster/Monster.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/Monster.cpp.s
+.PHONY : GameLogic/Monster/Monster.cpp.s
+
+GameLogic/Monster/MonsterManager.obj: GameLogic/Monster/MonsterManager.cpp.obj
+.PHONY : GameLogic/Monster/MonsterManager.obj
+
+# target to build an object file
+GameLogic/Monster/MonsterManager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.obj
+.PHONY : GameLogic/Monster/MonsterManager.cpp.obj
+
+GameLogic/Monster/MonsterManager.i: GameLogic/Monster/MonsterManager.cpp.i
+.PHONY : GameLogic/Monster/MonsterManager.i
+
+# target to preprocess a source file
+GameLogic/Monster/MonsterManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.i
+.PHONY : GameLogic/Monster/MonsterManager.cpp.i
+
+GameLogic/Monster/MonsterManager.s: GameLogic/Monster/MonsterManager.cpp.s
+.PHONY : GameLogic/Monster/MonsterManager.s
+
+# target to generate assembly for a file
+GameLogic/Monster/MonsterManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/GameLogic/Monster/MonsterManager.cpp.s
+.PHONY : GameLogic/Monster/MonsterManager.cpp.s
+
 GameLogic/Player.obj: GameLogic/Player.cpp.obj
 .PHONY : GameLogic/Player.obj
 
@@ -293,6 +341,12 @@ help:
 	@echo ... GameLogic/Match.obj
 	@echo ... GameLogic/Match.i
 	@echo ... GameLogic/Match.s
+	@echo ... GameLogic/Monster/Monster.obj
+	@echo ... GameLogic/Monster/Monster.i
+	@echo ... GameLogic/Monster/Monster.s
+	@echo ... GameLogic/Monster/MonsterManager.obj
+	@echo ... GameLogic/Monster/MonsterManager.i
+	@echo ... GameLogic/Monster/MonsterManager.s
 	@echo ... GameLogic/Player.obj
 	@echo ... GameLogic/Player.i
 	@echo ... GameLogic/Player.s

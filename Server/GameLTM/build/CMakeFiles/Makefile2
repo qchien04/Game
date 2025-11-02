@@ -84,12 +84,12 @@ clean: CMakeFiles/game_server.dir/clean
 CMakeFiles/game_server.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target game_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target game_server"
 .PHONY : CMakeFiles/game_server.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/game_server.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start E:\BTL-LTM\Server\GameLTM\build\CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start E:\BTL-LTM\Server\GameLTM\build\CMakeFiles 9
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/game_server.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start E:\BTL-LTM\Server\GameLTM\build\CMakeFiles 0
 .PHONY : CMakeFiles/game_server.dir/rule
@@ -101,7 +101,7 @@ game_server: CMakeFiles/game_server.dir/rule
 # codegen rule for target.
 CMakeFiles/game_server.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\game_server.dir\build.make CMakeFiles/game_server.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=1,2,3,4,5,6,7 "Finished codegen for target game_server"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=E:\BTL-LTM\Server\GameLTM\build\CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Finished codegen for target game_server"
 .PHONY : CMakeFiles/game_server.dir/codegen
 
 # clean rule for target.

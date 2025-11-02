@@ -1,7 +1,7 @@
 
 import pygame
 import sys
-from src.game_manager import GameManager
+from Client.src.game_manager import GameManager
 
 def main():
     pygame.init()

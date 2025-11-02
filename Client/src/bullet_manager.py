@@ -8,7 +8,6 @@ class BulletManager:
         x, y = start_pos
         target_x, target_y = target_pos
 
-        # Có thể tăng tốc độ hoặc bắn nhiều bullet tùy kill_count nếu muốn nâng cấp
         bullet = Bullet(x=x, y=y, target_x=target_x, target_y=target_y,speed=10)
         self.bullets.append(bullet)
 

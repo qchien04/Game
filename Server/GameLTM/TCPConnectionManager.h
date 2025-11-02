@@ -846,6 +846,12 @@ private:
                 test_match->AddVirtualPlayer(player_id);
             }
 
+            for (int i = 0; i < 5; i++) {
+                float x = 100.0f + (i * 100.0f);
+                float y = 100.0f;
+                test_match->SpawnSlime(x, y, 1000 + i);
+            }
+
             int shard_to_add= test_match->GetMatchId() % HighPerformanceGameServer::MATCH_SHARD_COUNT;
             test_match->PlayerAttack(1,1,1);
             int match_id= test_match->GetMatchId();
