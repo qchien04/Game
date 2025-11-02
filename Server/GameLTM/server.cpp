@@ -62,6 +62,9 @@ int test(){
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
+        std::cout << "Running in REAL SERVER mode...\n";
+        
+        return main_func();
         std::cout << "Usage: " << argv[0] << " [test|real]\n";
         return 0;
     }
