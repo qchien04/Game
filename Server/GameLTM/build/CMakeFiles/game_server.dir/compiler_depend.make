@@ -1257,6 +1257,7 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/bits/char_traits.h \
   C:/mingw64/include/c++/15.1.0/bits/charconv.h \
   C:/mingw64/include/c++/15.1.0/bits/chrono.h \
+  C:/mingw64/include/c++/15.1.0/bits/codecvt.h \
   C:/mingw64/include/c++/15.1.0/bits/concept_check.h \
   C:/mingw64/include/c++/15.1.0/bits/cpp_type_traits.h \
   C:/mingw64/include/c++/15.1.0/bits/cxxabi_forced.h \
@@ -1276,8 +1277,11 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/bits/istream.tcc \
   C:/mingw64/include/c++/15.1.0/bits/locale_classes.h \
   C:/mingw64/include/c++/15.1.0/bits/locale_classes.tcc \
+  C:/mingw64/include/c++/15.1.0/bits/locale_conv.h \
   C:/mingw64/include/c++/15.1.0/bits/locale_facets.h \
   C:/mingw64/include/c++/15.1.0/bits/locale_facets.tcc \
+  C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.h \
+  C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.tcc \
   C:/mingw64/include/c++/15.1.0/bits/localefwd.h \
   C:/mingw64/include/c++/15.1.0/bits/memory_resource.h \
   C:/mingw64/include/c++/15.1.0/bits/memoryfwd.h \
@@ -1292,6 +1296,7 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/bits/postypes.h \
   C:/mingw64/include/c++/15.1.0/bits/predefined_ops.h \
   C:/mingw64/include/c++/15.1.0/bits/ptr_traits.h \
+  C:/mingw64/include/c++/15.1.0/bits/quoted_string.h \
   C:/mingw64/include/c++/15.1.0/bits/random.h \
   C:/mingw64/include/c++/15.1.0/bits/random.tcc \
   C:/mingw64/include/c++/15.1.0/bits/range_access.h \
@@ -1301,6 +1306,7 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/bits/shared_ptr_atomic.h \
   C:/mingw64/include/c++/15.1.0/bits/shared_ptr_base.h \
   C:/mingw64/include/c++/15.1.0/bits/specfun.h \
+  C:/mingw64/include/c++/15.1.0/bits/sstream.tcc \
   C:/mingw64/include/c++/15.1.0/bits/std_abs.h \
   C:/mingw64/include/c++/15.1.0/bits/std_mutex.h \
   C:/mingw64/include/c++/15.1.0/bits/std_thread.h \
@@ -1361,11 +1367,13 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/ext/string_conversions.h \
   C:/mingw64/include/c++/15.1.0/ext/type_traits.h \
   C:/mingw64/include/c++/15.1.0/initializer_list \
+  C:/mingw64/include/c++/15.1.0/iomanip \
   C:/mingw64/include/c++/15.1.0/ios \
   C:/mingw64/include/c++/15.1.0/iosfwd \
   C:/mingw64/include/c++/15.1.0/iostream \
   C:/mingw64/include/c++/15.1.0/istream \
   C:/mingw64/include/c++/15.1.0/limits \
+  C:/mingw64/include/c++/15.1.0/locale \
   C:/mingw64/include/c++/15.1.0/memory \
   C:/mingw64/include/c++/15.1.0/mutex \
   C:/mingw64/include/c++/15.1.0/new \
@@ -1378,6 +1386,7 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/pstl/pstl_config.h \
   C:/mingw64/include/c++/15.1.0/random \
   C:/mingw64/include/c++/15.1.0/ratio \
+  C:/mingw64/include/c++/15.1.0/sstream \
   C:/mingw64/include/c++/15.1.0/stdexcept \
   C:/mingw64/include/c++/15.1.0/stdlib.h \
   C:/mingw64/include/c++/15.1.0/streambuf \
@@ -1413,8 +1422,10 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/error_constants.h \
   C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/gthr-default.h \
   C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/gthr.h \
+  C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/messages_members.h \
   C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/opt_random.h \
   C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/time_members.h \
   C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/adxintrin.h \
   C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/ammintrin.h \
   C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/amxavx512intrin.h \
@@ -1691,13 +1702,19 @@ CMakeFiles/game_server.dir/server.cpp.obj: E:/BTL-LTM/Server/GameLTM/server.cpp 
   E:/BTL-LTM/Server/GameLTM/GameLogic/Player.h \
   E:/BTL-LTM/Server/GameLTM/HighPerformanceGameServer.h \
   E:/BTL-LTM/Server/GameLTM/MemoryPool.h \
+  E:/BTL-LTM/Server/GameLTM/NetWork/UDPNetWorkDualChannel.h \
   E:/BTL-LTM/Server/GameLTM/TCPConnectionManager.h \
-  E:/BTL-LTM/Server/GameLTM/common.h
+  E:/BTL-LTM/Server/GameLTM/common.h \
+  E:/BTL-LTM/Server/GameLTM/test.h
 
+
+E:/BTL-LTM/Server/GameLTM/test.h:
 
 E:/BTL-LTM/Server/GameLTM/common.h:
 
 E:/BTL-LTM/Server/GameLTM/TCPConnectionManager.h:
+
+E:/BTL-LTM/Server/GameLTM/NetWork/UDPNetWorkDualChannel.h:
 
 E:/BTL-LTM/Server/GameLTM/MemoryPool.h:
 
@@ -1709,11 +1726,21 @@ C:/mingw64/x86_64-w64-mingw32/include/mstcpip.h:
 
 C:/mingw64/x86_64-w64-mingw32/include/in6addr.h:
 
+C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/messages_members.h:
+
 C:/mingw64/include/c++/15.1.0/unordered_map:
+
+C:/mingw64/include/c++/15.1.0/sstream:
+
+C:/mingw64/include/c++/15.1.0/bits/quoted_string.h:
 
 C:/mingw64/include/c++/15.1.0/bits/node_handle.h:
 
+C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.h:
+
 C:/mingw64/include/c++/15.1.0/bits/enable_special_members.h:
+
+C:/mingw64/include/c++/15.1.0/bits/codecvt.h:
 
 E:/BTL-LTM/Server/GameLTM/server.cpp:
 
@@ -1831,6 +1858,8 @@ C:/mingw64/x86_64-w64-mingw32/include/_mingw_unicode.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/xsavesintrin.h:
 
+C:/mingw64/include/c++/15.1.0/iomanip:
+
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/xsaveoptintrin.h:
 
 C:/mingw64/x86_64-w64-mingw32/include/namespaceapi.h:
@@ -1840,6 +1869,8 @@ C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/wmmintrin.h:
 C:/mingw64/x86_64-w64-mingw32/include/pshpack8.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/waitpkgintrin.h:
+
+C:/mingw64/include/c++/15.1.0/locale:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/vpclmulqdqintrin.h:
 
@@ -1854,6 +1885,8 @@ C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/stdarg.h:
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/sgxintrin.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/serializeintrin.h:
+
+C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.tcc:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/rtmintrin.h:
 
@@ -2159,6 +2192,8 @@ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/ctype_base.h:
 
 C:/mingw64/include/c++/15.1.0/initializer_list:
 
+C:/mingw64/include/c++/15.1.0/bits/sstream.tcc:
+
 C:/mingw64/include/c++/15.1.0/bits/invoke.h:
 
 C:/mingw64/include/c++/15.1.0/bits/stl_pair.h:
@@ -2193,6 +2228,8 @@ C:/mingw64/x86_64-w64-mingw32/include/limits.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/avx10_2mediaintrin.h:
 
+C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/time_members.h:
+
 C:/mingw64/x86_64-w64-mingw32/include/threadpoolapiset.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/mmintrin.h:
@@ -2216,6 +2253,8 @@ C:/mingw64/include/c++/15.1.0/ios:
 C:/mingw64/include/c++/15.1.0/ext/string_conversions.h:
 
 C:/mingw64/include/c++/15.1.0/backward/binders.h:
+
+C:/mingw64/include/c++/15.1.0/bits/locale_conv.h:
 
 C:/mingw64/lib/gcc/x86_64-w64-mingw32/15.1.0/include/xopintrin.h:
 

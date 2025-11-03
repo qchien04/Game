@@ -1,8 +1,13 @@
 #include "TCPConnectionManager.h"
 #include "GameLogic/Match.h"
 
+ 
+#include "NetWork/UDPNetWorkDualChannel.h"
+
+#include "GameUDPServer.h"
 #include <thread>
 #include <chrono>
+
 
 int main_func(){
     std::cout << "High-Performance UDP Game Server with Memory Pool Optimization\n";
@@ -60,6 +65,18 @@ int test(){
     }
 }
 
+int udp_server(){
+    GameUDPServer server;
+    
+    if (!server.initialize(8080)) {
+        return 1;
+    }
+    
+    server.CreateMatch();
+    
+    server.start();
+    
+}
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cout << "Running in REAL SERVER mode...\n";
@@ -78,6 +95,10 @@ int main(int argc, char* argv[]) {
     else if (mode == "real") {
         std::cout << "Running in REAL SERVER mode...\n";
         return main_func();
+    } 
+    else if (mode == "udp_sv") {
+        std::cout << "Running in udp SERVER mode...\n";
+        return udp_server();
     } 
     else {
         std::cerr << "Unknown mode: " << mode << "\n";

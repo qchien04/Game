@@ -455,4 +455,17 @@ CMakeFiles/game_server.dir/server.cpp.obj: \
  C:/mingw64/include/c++/15.1.0/bits/random.tcc \
  C:/mingw64/include/c++/15.1.0/numeric \
  C:/mingw64/include/c++/15.1.0/bits/stl_numeric.h \
- C:/mingw64/include/c++/15.1.0/pstl/glue_numeric_defs.h
+ C:/mingw64/include/c++/15.1.0/pstl/glue_numeric_defs.h \
+ E:\BTL-LTM\Server\GameLTM\NetWork/UDPNetWorkDualChannel.h \
+ C:/mingw64/include/c++/15.1.0/iomanip \
+ C:/mingw64/include/c++/15.1.0/locale \
+ C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.h \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/mingw64/include/c++/15.1.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/mingw64/include/c++/15.1.0/bits/codecvt.h \
+ C:/mingw64/include/c++/15.1.0/bits/locale_facets_nonio.tcc \
+ C:/mingw64/include/c++/15.1.0/bits/locale_conv.h \
+ C:/mingw64/include/c++/15.1.0/bits/quoted_string.h \
+ C:/mingw64/include/c++/15.1.0/sstream \
+ C:/mingw64/include/c++/15.1.0/bits/sstream.tcc \
+ E:\BTL-LTM\Server\GameLTM\GameUDPServer.h

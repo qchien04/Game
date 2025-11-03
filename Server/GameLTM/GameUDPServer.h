@@ -1,35 +1,35 @@
+#pragma once
 #include "common.h"
 #include "MemoryPool.h"
 #include "GameLogic/Match.h"
-
+#include "NetWork/UDPNetWorkDualChannel.h"
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
-// Using moodycamel's high-performance concurrent queue with pointers for zero-copy
+
 using MessageQueue = moodycamel::ConcurrentQueue<GameMessage*>;
 
-class HighPerformanceGameServer {
+class GameUDPServer {
 private:
     SOCKET server_socket;
     HANDLE iocp_handle;
 
     std::atomic<bool> running;
     
+    // Dual-channel UDP system
+    std::unique_ptr<UDPNetWorkDualChannel> dual_channel;
+    
     // Thread pools
     std::vector<std::thread> network_threads;
     std::vector<std::thread> game_logic_threads;
     std::vector<std::thread> broadcast_threads;
     
-    // High-performance concurrent queues for inter-thread communication (using pointers)
+    // High-performance concurrent queues for inter-thread communication
     std::vector<std::unique_ptr<MessageQueue>> incoming_queues;
-    std::vector<std::unique_ptr<MessageQueue>> outgoing_queues;
     
     // Per-thread tokens for better performance
     std::vector<moodycamel::ProducerToken> incoming_producer_tokens;
     std::vector<moodycamel::ConsumerToken> incoming_consumer_tokens;
-
-    std::vector<moodycamel::ProducerToken> outgoing_producer_tokens;
-    std::vector<moodycamel::ConsumerToken> outgoing_consumer_tokens;
     
     // Player management
     std::unordered_map<uint32_t, std::unique_ptr<Player>> players;
@@ -50,16 +50,14 @@ public:
     static constexpr int NETWORK_THREAD_COUNT = 4;
     static constexpr int GAME_LOGIC_THREAD_COUNT = 1;
     static constexpr int MATCH_SHARD_COUNT = 4;
-    static constexpr int MATCH_SHARD_NUMBER_PER_THREAD = 4;
-
-    inline static std::array<std::unordered_map<int, std::unique_ptr<AnCom::Match>>, MATCH_SHARD_COUNT> match_shards;
     static constexpr int BROADCAST_THREAD_COUNT = 2;
     static constexpr int BUFFER_SIZE = 65536;
 
-    HighPerformanceGameServer() : 
+    inline static std::array<std::unordered_map<int, std::unique_ptr<AnCom::Match>>, MATCH_SHARD_COUNT> match_shards;
+
+    GameUDPServer() : 
         server_socket(INVALID_SOCKET),
         iocp_handle(NULL),
-
         running(false),
         next_player_id(1),
         messages_processed(0),
@@ -75,18 +73,15 @@ public:
             throw std::runtime_error("WSAStartup failed");
         }
         
-        // Initialize queues with pre-allocated capacity for better performance
+        // Initialize queues with pre-allocated capacity
         for (int i = 0; i < NETWORK_THREAD_COUNT; ++i) {
             incoming_queues.push_back(std::make_unique<MessageQueue>(static_cast<size_t>(16384)));
-            outgoing_queues.push_back(std::make_unique<MessageQueue>(static_cast<size_t>(16384)));
         }
 
-        // Initialize tokens for each thread (improves performance significantly)
+        // Initialize tokens for each thread
         for (int i = 0; i < NETWORK_THREAD_COUNT; ++i) {
             incoming_producer_tokens.emplace_back(*incoming_queues[i]);
             incoming_consumer_tokens.emplace_back(*incoming_queues[i]);
-            outgoing_producer_tokens.emplace_back(*outgoing_queues[i]);
-            outgoing_consumer_tokens.emplace_back(*outgoing_queues[i]);
         }
     }
     
@@ -96,15 +91,15 @@ public:
         test_match->AddVirtualPlayer(1);
         test_match->AddVirtualPlayer(2);
 
-         for (int i = 0; i < 5; i++) {
+        int shard_to_add = test_match->GetMatchId() % MATCH_SHARD_COUNT;
+        test_match->PlayerAttack(1,1,1);
+        for (int i = 0; i < 5; i++) {
             float x = 100.0f + (i * 100.0f);
             float y = 100.0f;
             test_match->SpawnSlime(x, y, 1000 + i);
         }
-
-        int shard_to_add = test_match->GetMatchId() % MATCH_SHARD_COUNT;
-        test_match->PlayerAttack(1,1,1);
-        std::cout<<"[CREATE]"<<test_match->GetMatchId()<<" "<<shard_to_add<<" "<<std::endl;
+        std::cout<<"[CREATE] Match:" << test_match->GetMatchId() 
+                 << " Shard:" << shard_to_add << std::endl;
 
         match_shards[shard_to_add][test_match->GetMatchId()] = std::move(test_match);
     }
@@ -146,23 +141,12 @@ public:
             return false;
         }
         
-        // Create IOCP handle (Windows alternative to epoll)
-        iocp_handle = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
-        if (iocp_handle == NULL) {
-            std::cerr << "Failed to create IOCP\n";
-            closesocket(server_socket);
-            return false;
-        }
-        
-        // Associate socket with IOCP
-        if (CreateIoCompletionPort((HANDLE)server_socket, iocp_handle, (ULONG_PTR)server_socket, 0) == NULL) {
-            std::cerr << "Failed to associate socket with IOCP\n";
-            closesocket(server_socket);
-            CloseHandle(iocp_handle);
-            return false;
-        }
+        // Initialize dual-channel system
+        dual_channel = std::make_unique<UDPNetWorkDualChannel>(server_socket);
+        dual_channel->start();
         
         std::cout << "Server initialized on port " << port << std::endl;
+        std::cout << "Dual-channel system started\n";
         return true;
     }
     
@@ -171,27 +155,27 @@ public:
         
         // Start network threads
         for (int i = 0; i < NETWORK_THREAD_COUNT; ++i) {
-            network_threads.emplace_back(&HighPerformanceGameServer::network_thread, this, i);
+            network_threads.emplace_back(&GameUDPServer::network_thread, this, i);
         }
         
         // Start game logic threads
         for (int i = 0; i < GAME_LOGIC_THREAD_COUNT; ++i) {
-            game_logic_threads.emplace_back(&HighPerformanceGameServer::game_logic_thread, this, i);
+            game_logic_threads.emplace_back(&GameUDPServer::game_logic_thread, this, i);
         }
         
         // Start broadcast threads
         for (int i = 0; i < BROADCAST_THREAD_COUNT; ++i) {
-            broadcast_threads.emplace_back(&HighPerformanceGameServer::broadcast_thread, this, i);
+            broadcast_threads.emplace_back(&GameUDPServer::broadcast_thread, this, i);
         }
         
         // Performance monitoring thread
-        std::thread monitor_thread(&HighPerformanceGameServer::monitor_performance, this);
+        std::thread monitor_thread(&GameUDPServer::monitor_performance, this);
         
-        std::cout << "Game server started with " 
-                  << NETWORK_THREAD_COUNT << " network threads, "
-                  << GAME_LOGIC_THREAD_COUNT << " game logic threads, "
-                  << BROADCAST_THREAD_COUNT << " broadcast threads\n";
-        std::cout << "Message pool initialized with capacity: " << message_pool.get_total_capacity() << "\n";
+        std::cout << "Game server started:\n"
+                  << "  Network threads: " << NETWORK_THREAD_COUNT << "\n"
+                  << "  Game logic threads: " << GAME_LOGIC_THREAD_COUNT << "\n"
+                  << "  Broadcast threads: " << BROADCAST_THREAD_COUNT << "\n"
+                  << "  Message pool capacity: " << message_pool.get_total_capacity() << "\n";
         
         // Main event loop
         main_event_loop();
@@ -205,9 +189,13 @@ public:
     
     void stop() {
         running.store(false);
+        if (dual_channel) {
+            dual_channel->stop();
+        }
     }
 
-    ~HighPerformanceGameServer() {
+    ~GameUDPServer() {
+        stop();
         if (server_socket != INVALID_SOCKET) closesocket(server_socket);
         if (iocp_handle != NULL) CloseHandle(iocp_handle);
         WSACleanup();
@@ -218,7 +206,6 @@ private:
         std::array<uint8_t, BUFFER_SIZE> buffer;
         
         while (running.load()) {
-            // Windows: Use select or polling for UDP
             fd_set read_fds;
             FD_ZERO(&read_fds);
             FD_SET(server_socket, &read_fds);
@@ -244,7 +231,6 @@ private:
     
     void handle_incoming_data(std::array<uint8_t, BUFFER_SIZE>& buffer) {
         sockaddr_in client_addr;
-
         int addr_len = sizeof(client_addr);
         
         while (true) {
@@ -259,78 +245,114 @@ private:
                 continue;
             }
             
-            if (bytes_received < sizeof(uint32_t) + sizeof(uint16_t)) {
-                continue; // Invalid message
+            if (bytes_received < 1) continue;
+            
+            // Process through dual-channel system first
+            if (!dual_channel->process_incoming(buffer.data(), bytes_received, client_addr)) {
+                continue; // Duplicate or ACK packet
             }
             
-            // Acquire message from pool instead of creating on stack
-            GameMessage* msg = message_pool.acquire();
-            if (!msg) {
-                std::cerr << "Failed to acquire message from pool\n";
-                continue;
+            // Determine message type
+            uint8_t flag = buffer[0];
+            bool is_reliable = (flag == FLAG_RELIABLE);
+            
+            // Parse packet based on type
+            if (is_reliable) {
+                if (bytes_received < 14) continue;
+                parse_reliable_packet(buffer.data(), bytes_received, client_addr);
+            } else if (flag == FLAG_UNRELIABLE) {
+                if (bytes_received < 10) continue;
+                parse_unreliable_packet(buffer.data(), bytes_received, client_addr);
             }
-            
-            pool_allocations.fetch_add(1);
-            msg->reset(); // Ensure clean state
-            
-            uint8_t* ptr = buffer.data();
-
-            // Read 4 bytes big-endian → host-order
-            int32_t net_player_id = *reinterpret_cast<int32_t*>(ptr);
-            msg->player_id = ntohl(net_player_id);
-            ptr += sizeof(int32_t);
-
-            // Read 4 bytes big-endian → host-order
-            int32_t net_msg_type = *reinterpret_cast<int32_t*>(ptr);
-            msg->msg_type = ntohl(net_msg_type);
-            ptr += sizeof(int32_t);
-
-            // Read 4 bytes timestamp
-            int32_t net_match_id = *reinterpret_cast<int32_t*>(ptr);
-            msg->match_id = ntohl(net_match_id);
-            ptr += sizeof(int32_t);
-
-            msg->client_addr = client_addr;
-
-            // Payload
-                msg->payload_size = bytes_received - (sizeof(int32_t) * 3);
-                if (msg->payload_size > 0) {
-                    memcpy(msg->payload.data(), ptr, (std::min)(msg->payload_size, msg->payload.size()));
-                }
-            
-            // Distribute to network threads using round-robin
-            static std::atomic<int> thread_index(0);
-            int idx = thread_index.fetch_add(1) % NETWORK_THREAD_COUNT;
-            std::cout << "[ENQUEUE] thread_idx:" << idx 
-                        << " player_id:" << msg->player_id 
-                        << " match_id:"<<msg->match_id
-                        << " ptr:" << msg << std::endl;
-
-            if (!incoming_queues[idx]) {
-                std::cout << "incoming_queues[" << idx << "] is null!\n";
-                abort();
-            }
-            if (!msg) {
-                std::cout << "Message is null\n";
-                abort();
-            }
-            incoming_queues[idx]->enqueue(incoming_producer_tokens[idx], msg);
-            
-            messages_processed.fetch_add(1);
         }
     }
     
+    void parse_reliable_packet(const uint8_t* buffer, size_t size, const sockaddr_in& addr) {
+        // Reliable packet format: [FLAG][SEQ][PLAYER_ID][MATCH_ID][MSG_TYPE][PAYLOAD]
+        const uint8_t* ptr = buffer;
+        ptr++; // Skip flag
+        
+        uint32_t sequence_id = ntohl(*reinterpret_cast<const uint32_t*>(ptr));
+        ptr += 4;
+        
+        uint32_t player_id = ntohl(*reinterpret_cast<const uint32_t*>(ptr));
+        ptr += 4;
+        
+        uint32_t match_id = ntohl(*reinterpret_cast<const uint32_t*>(ptr));
+        ptr += 4;
+        
+        uint8_t msg_type = *ptr++;
+        
+        // Create game message
+        GameMessage* msg = message_pool.acquire();
+        if (!msg) return;
+        
+        pool_allocations.fetch_add(1);
+        msg->reset();
+        
+        msg->player_id = player_id;
+        msg->match_id = match_id;
+        msg->msg_type = msg_type;
+        msg->client_addr = addr;
+        msg->payload_size = size - 14;
+        
+        if (msg->payload_size > 0) {
+            memcpy(msg->payload.data(), ptr, (std::min)(msg->payload_size, msg->payload.size()));
+        }
+        
+        enqueue_message(msg);
+    }
+    
+    void parse_unreliable_packet(const uint8_t* buffer, size_t size, const sockaddr_in& addr) {
+        // Unreliable packet format: [FLAG][PLAYER_ID][MATCH_ID][MSG_TYPE][PAYLOAD]
+        const uint8_t* ptr = buffer;
+        ptr++; // Skip flag
+        
+        uint32_t player_id = ntohl(*reinterpret_cast<const uint32_t*>(ptr));
+        ptr += 4;
+        
+        uint32_t match_id = ntohl(*reinterpret_cast<const uint32_t*>(ptr));
+        ptr += 4;
+        
+        uint8_t msg_type = *ptr++;
+        
+        // Create game message
+        GameMessage* msg = message_pool.acquire();
+        if (!msg) return;
+        
+        pool_allocations.fetch_add(1);
+        msg->reset();
+        
+        msg->player_id = player_id;
+        msg->match_id = match_id;
+        msg->msg_type = msg_type;
+        msg->client_addr = addr;
+        msg->payload_size = size - 10;
+        
+        if (msg->payload_size > 0) {
+            memcpy(msg->payload.data(), ptr, (std::min)(msg->payload_size, msg->payload.size()));
+        }
+        
+        enqueue_message(msg);
+    }
+    
+    void enqueue_message(GameMessage* msg) {
+        static std::atomic<int> thread_index(0);
+        int idx = thread_index.fetch_add(1) % NETWORK_THREAD_COUNT;
+        
+        incoming_queues[idx]->enqueue(incoming_producer_tokens[idx], msg);
+        messages_processed.fetch_add(1);
+    }
+    
     void network_thread(int thread_id) {        
-        // Batch processing arrays for better performance (using pointers)
         std::array<GameMessage*, 256> incoming_batch;
         
         while (running.load()) {
-            bool found_work = false;
-            
-            // Process incoming messages in batches
-            size_t dequeued = incoming_queues[thread_id]->try_dequeue_bulk(incoming_consumer_tokens[thread_id], 
-                                                                          incoming_batch.begin(), 
-                                                                          incoming_batch.size());
+            size_t dequeued = incoming_queues[thread_id]->try_dequeue_bulk(
+                incoming_consumer_tokens[thread_id], 
+                incoming_batch.begin(), 
+                incoming_batch.size());
+                
             if (dequeued > 0) {                
                 for (size_t i = 0; i < dequeued; ++i) {
                     process_message(*incoming_batch[i]);
@@ -350,15 +372,17 @@ private:
                     message_pool.release(incoming_batch[i]);
                     pool_deallocations.fetch_add(1);
                 }
-                found_work = true;
+            } else {
+                std::this_thread::sleep_for(std::chrono::microseconds(100));
             }
         }
     }
     
     void game_logic_thread(int thread_id) {
-        const auto update_interval = std::chrono::milliseconds(33); // ~60 FPS
+        const auto update_interval = std::chrono::milliseconds(33); // ~30 FPS
+        
         while (running.load()) {
-            for(size_t shard = thread_id; shard < MATCH_SHARD_COUNT; shard += GAME_LOGIC_THREAD_COUNT){
+            for(size_t shard = thread_id; shard < MATCH_SHARD_COUNT; shard += GAME_LOGIC_THREAD_COUNT) {
                 for (auto it = match_shards[shard].begin(); it != match_shards[shard].end(); it++) {
                     auto now = std::chrono::steady_clock::now();
                     
@@ -373,29 +397,34 @@ private:
     }
     
     void broadcast_thread(int thread_id) {
-        const auto broadcast_interval = std::chrono::milliseconds(33); // ~60 FPS
+        const auto broadcast_interval = std::chrono::milliseconds(33); // ~30 FPS
+        std::array<uint8_t, BUFFER_SIZE> buffer;
+        
         while (running.load()) {
-            for(size_t shard = thread_id; shard < MATCH_SHARD_COUNT; shard += GAME_LOGIC_THREAD_COUNT){
+            for(size_t shard = thread_id; shard < MATCH_SHARD_COUNT; shard += BROADCAST_THREAD_COUNT) {
                 for (auto it = match_shards[shard].begin(); it != match_shards[shard].end(); it++) {
                     auto now = std::chrono::steady_clock::now();
                     
                     if (now - it->second->last_broadcast >= broadcast_interval) {
                         it->second->last_broadcast = now;
-                            
-                        std::array<uint8_t, BUFFER_SIZE> buffer;
+                        
                         uint8_t* ptr = buffer.data();
-
                         size_t total_size;
                         it->second->SerializeGameState(ptr, total_size);
                         
-                        for(size_t player = 0; player < it->second->GetAllPlayer().size(); player++){
+                        // Broadcast game state using UNRELIABLE channel (high frequency)
+                        for(size_t player = 0; player < it->second->GetAllPlayer().size(); player++) {
                             auto p = players.find(it->second->GetAllPlayer()[player]->GetId());
                             if (p != players.end()) {
-                                int sent = sendto(server_socket, (char*)buffer.data(), total_size, 
-                                               0, (sockaddr*)&p->second->addr, sizeof(p->second->addr));
-                                if (sent > 0) {
-                                    messages_sent.fetch_add(1);
-                                }
+                                dual_channel->send_unreliable(
+                                    p->second->id,
+                                    it->first,
+                                    MSG_GAME_STATE,
+                                    ptr,
+                                    total_size,
+                                    p->second->addr
+                                );
+                                messages_sent.fetch_add(1);
                             }
                         }
                     }
@@ -407,42 +436,55 @@ private:
     
     void process_message(const GameMessage& msg) {
         switch (msg.msg_type) {
-            case 1: // Join game
+            case MSG_PLAYER_JOIN: // Reliable
                 handle_player_join(msg);
                 break;
-            case 2: // Player movement
+            case MSG_PLAYER_LEAVE: // Reliable
+                handle_player_disconnect(msg);
+                break;
+            case MSG_POSITION: // Unreliable
                 handle_player_movement(msg);
                 break;
-            case 3: // Player action
+            default:
                 handle_player_action(msg);
-                break;
-            case 99: // Disconnect
-                handle_player_disconnect(msg);
                 break;
         }
     }
     
     void handle_player_join(const GameMessage& msg) {
-        uint32_t player_id = next_player_id.fetch_add(1);
-        
-        auto player = std::make_unique<Player>();
-        player->id = msg.player_id;
-        player->addr = msg.client_addr;
-        player->last_seen = std::chrono::steady_clock::now();
-        player->active = true;
-        
         auto it = players.find(msg.player_id);
         if (it == players.end()) {
+            auto player = std::make_unique<Player>();
+            player->id = msg.player_id;
+            player->addr = msg.client_addr;
+            player->last_seen = std::chrono::steady_clock::now();
+            player->active = true;
+            
             players[msg.player_id] = std::move(player);
             active_connections.fetch_add(1);
+            
+            // Send join confirmation via RELIABLE channel
+            uint8_t response[4];
+            *reinterpret_cast<uint32_t*>(response) = htonl(msg.player_id);
+            
+            dual_channel->send_reliable(
+                msg.player_id,
+                0,
+                MSG_PLAYER_JOIN,
+                response,
+                4,
+                msg.client_addr
+            );
+            
+            std::cout << "[JOIN] Player " << msg.player_id << " connected\n";
         }
     }
     
     void handle_player_movement(const GameMessage& msg) {
         auto it = players.find(msg.player_id);
         if (it != players.end() && msg.payload_size >= sizeof(float) * 3) {
-            const float* pos = reinterpret_cast<const float*>(msg.payload.data());
             it->second->last_seen = std::chrono::steady_clock::now();
+            // Movement updates are already unreliable, no need to send confirmation
         }
     }
     
@@ -450,12 +492,14 @@ private:
         auto it = players.find(msg.player_id);
         if (it != players.end()) {
             it->second->last_seen = std::chrono::steady_clock::now();
+            // Process action...
         }
     }
     
     void handle_player_disconnect(const GameMessage& msg) {
         auto it = players.find(msg.player_id);
         if (it != players.end()) {
+            std::cout << "[LEAVE] Player " << msg.player_id << " disconnected\n";
             players.erase(it);
             active_connections.fetch_sub(1);
         }
@@ -465,44 +509,43 @@ private:
         auto last_check = std::chrono::steady_clock::now();
         uint64_t last_messages_processed = 0;
         uint64_t last_messages_sent = 0;
-        uint64_t last_allocations = 0;
-        uint64_t last_deallocations = 0;
         
         while (running.load()) {
-            std::this_thread::sleep_for(std::chrono::seconds(100));
+            std::this_thread::sleep_for(std::chrono::seconds(10));
             
             auto now = std::chrono::steady_clock::now();
             auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - last_check).count();
             
             uint64_t current_processed = messages_processed.load();
             uint64_t current_sent = messages_sent.load();
-            uint64_t current_allocations = pool_allocations.load();
-            uint64_t current_deallocations = pool_deallocations.load();
             
             if (elapsed > 0) {
                 uint64_t processed_rate = (current_processed - last_messages_processed) / elapsed;
                 uint64_t sent_rate = (current_sent - last_messages_sent) / elapsed;
-                uint64_t alloc_rate = (current_allocations - last_allocations) / elapsed;
-                uint64_t dealloc_rate = (current_deallocations - last_deallocations) / elapsed;
                 
-                std::cout << "Performance Stats:\n"
-                         << "  Active Players: " << active_connections.load() << "\n"
-                         << "  Messages/sec (In): " << processed_rate << "\n"
-                         << "  Messages/sec (Out): " << sent_rate << "\n"
-                         << "  Pool Allocs/sec: " << alloc_rate << "\n"
-                         << "  Pool Deallocs/sec: " << dealloc_rate << "\n"
-                         << "  Pool Active Objects: " << message_pool.get_allocated_count() << "\n"
-                         << "  Pool Total Capacity: " << message_pool.get_total_capacity() << "\n"
-                         << "  Total Processed: " << current_processed << "\n"
-                         << "  Total Sent: " << current_sent << "\n"
-                         << std::endl;
+                std::cout << "\n========== SERVER PERFORMANCE ==========\n";
+                std::cout << "[PLAYERS]\n"
+                         << "  Active: " << active_connections.load() << "\n";
+                std::cout << "[MESSAGES]\n"
+                         << "  In/sec:  " << processed_rate << "\n"
+                         << "  Out/sec: " << sent_rate << "\n"
+                         << "  Total In:  " << current_processed << "\n"
+                         << "  Total Out: " << current_sent << "\n";
+                std::cout << "[MEMORY POOL]\n"
+                         << "  Active:   " << message_pool.get_allocated_count() << "\n"
+                         << "  Capacity: " << message_pool.get_total_capacity() << "\n";
+                
+                // Print dual-channel statistics
+                if (dual_channel) {
+                    dual_channel->print_stats();
+                }
+                
+                std::cout << "========================================\n\n";
             }
             
             last_check = now;
             last_messages_processed = current_processed;
             last_messages_sent = current_sent;
-            last_allocations = current_allocations;
-            last_deallocations = current_deallocations;
         }
     }
 };

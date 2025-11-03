@@ -403,7 +403,7 @@ namespace AnCom {
         // 7. Cập nhật snapshot
         std::shared_ptr<GameState> new_state = std::make_shared<GameState>(gameState);
         std::atomic_store(&snap_shot_state, new_state);
-        //std::cout<<gameState<<std::endl;
+        std::cout<<gameState<<std::endl;
     }
 
     // ==================== UTILITY FUNCTIONS ====================
